@@ -9,17 +9,18 @@ api_key = st.sidebar.text_input("Cole sua Gemini API Key aqui", type="password")
 
 if api_key:
     try:
-        # FORÇANDO A VERSÃO ESTÁVEL v1 NA CONFIGURAÇÃO
+        # O SEGREDO: Forçamos o uso do transporte REST para evitar o erro 404 da v1beta
         genai.configure(api_key=api_key, transport='rest')
         
+        # Usamos o nome oficial sem prefixos que causam erro
         model = genai.GenerativeModel('gemini-1.5-flash')
 
         uploaded_files = st.file_uploader("Suba seus prints", accept_multiple_files=True, type=['png', 'jpg', 'jpeg'])
 
         if st.button("🚀 Analisar Agora"):
             if uploaded_files:
-                with st.spinner("Analisando gráficos..."):
-                    prompt = "Analise o Price Action (Cassius Andrei) nestes gráficos de WINFUT. Identifique suportes, resistências e Traps."
+                with st.spinner("IA processando seus gráficos..."):
+                    prompt = "Você é um auditor de Price Action (Cassius Andrei). Analise estes prints de WINFUT, identifique suportes, resistências e possíveis Traps."
                     conteudo = [prompt]
                     for f in uploaded_files:
                         img = Image.open(f)
@@ -29,9 +30,10 @@ if api_key:
                     st.markdown("---")
                     st.write(response.text)
             else:
-                st.warning("Selecione os prints primeiro.")
+                st.warning("Cadê os prints? Sobe os arquivos primeiro!")
     except Exception as e:
-        st.error(f"Erro: {e}")
+        st.error(f"Erro técnico: {e}")
 else:
-    st.info("Insira sua chave para começar.")
+    st.info("Insira sua chave para liberar o acesso gratuito.")
+
 
