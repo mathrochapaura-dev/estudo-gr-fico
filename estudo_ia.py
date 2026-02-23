@@ -13,8 +13,8 @@ if api_key:
     try:
         genai.configure(api_key=api_key)
         
-        # MUDANÇA CRÍTICA: Forçando o modelo estável sem o prefixo 'models/' que está gerando o erro 404
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # Esta linha força o sistema a não usar a versão 'beta' que está dando erro
+model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
         uploaded_files = st.file_uploader("Suba seus prints", accept_multiple_files=True, type=['png', 'jpg', 'jpeg'])
 
@@ -37,4 +37,5 @@ if api_key:
     except Exception as e:
         st.error(f"Erro detectado: {e}")
 else:
+
     st.info("Insira sua chave para liberar o acesso gratuito.")
