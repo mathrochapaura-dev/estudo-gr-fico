@@ -1,5 +1,8 @@
 import streamlit as st
 import google.generativeai as genai
+import os
+# Força a biblioteca a ignorar versões instáveis
+os.environ["GOOGLE_API_USE_MTLS_ENDPOINT"] = "never"
 from PIL import Image
 
 st.set_page_config(page_title="Mentor WINFUT", layout="wide")
@@ -39,3 +42,4 @@ model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 else:
 
     st.info("Insira sua chave para liberar o acesso gratuito.")
+
